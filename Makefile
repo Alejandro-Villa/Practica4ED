@@ -6,12 +6,20 @@ CXX = g++
 WARN = -Wall -Wpedantic -Wextra # Añadir si se quieren warnings detalladas
 CPPFLAGS = -g $(WARN) -I$(INC) -c --std=c++11
 
-all:$(BIN)/cocinero_integral
+all: dirs $(BIN)/cocinero_integral 
 
 # ************ Generación de documentación ******************
 documentacion:
 	doxygen doc/doxys/Doxyfile
 
+# ************ Creación de Directorios ***********
+dirs: | $(OBJ) $(BIN)
+
+
+$(OBJ):
+	mkdir -p $@
+$(BIN):
+	mkdir -p $@
 	
 # ************ Compilación de módulos ************
 $(OBJ)/ingredientes.o: $(SRC)/ingredientes.cpp $(INC)/ingredientes.h $(INC)/ingrediente.h
