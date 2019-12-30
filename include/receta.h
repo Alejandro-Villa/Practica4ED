@@ -9,6 +9,7 @@
 #ifndef RECETA
 #define RECETA
 
+//#include "instrucciones.h"
 #include<string>
 #include<list>
 #include<iostream>
@@ -58,6 +59,9 @@ class receta {
 		 * @brief Fibra de la receta.
 		 */
 		double fibra;
+
+		// NUEVO PRACTICA 4
+		//instrucciones inst;
 
 	public:
 		/**
