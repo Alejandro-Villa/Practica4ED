@@ -63,6 +63,8 @@ receta& receta::operator=(const receta& rhs) {
 	grasas = rhs.grasas;
 	proteinas = rhs.proteinas;
 	fibra = rhs.fibra;
+	
+	return *this;
 }
 
 ostream& operator<<(ostream& out, const receta& r) {
@@ -113,4 +115,6 @@ istream& operator>>(istream& in, receta& r) {
 		} else 
 			cerr << "Error en el procesamiento de ingredientes..." << endl;
 	}
+
+	return in;
 }
