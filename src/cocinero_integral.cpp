@@ -19,7 +19,7 @@
 #include "recetas.h"
 #include<iostream>
 
-usign namespace std;
+using namespace std;
 
 int main() {
 	return 0;
