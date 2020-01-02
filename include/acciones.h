@@ -12,13 +12,14 @@ class acciones {
 		std::map<std::string, unsigned char> datos;
 	public:
 		acciones() {};
-		acciones(const std::map<std::string, unisgned char>& accmap);
+		acciones(const std::map<std::string, unsigned char>& accmap);
 		acciones(const acciones& otro);
 
-		inline unsigned char getAriedad(const std::string& nombre) const {return datos[nombre];};
+		//inline unsigned char getAriedad(const std::string& nombre) const {return datos.at(nombre);};
 
 		//std::pair<std::string, unsigned char>& operator[] (const std::string& nombre) {return std::makepair(nombre, datos[nombre]);};
-		unsigned char& operator[] (const std::string& nombre) const {return getAriedad(nombre);};
+		unsigned char& operator[] (const std::string& nombre) {return datos.at(nombre);};
+		unsigned char operator[] (const std::string& nombre) const {return datos.at(nombre);};
 
 		bool addAccion(const std::string& nombre, const unsigned char& ariedad);
 };

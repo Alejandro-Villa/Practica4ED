@@ -1,8 +1,9 @@
 #include "acciones.h"
+#include<iostream>
 
 using namespace std;
 
-acciones::acciones(const std::map<std::string, unisgned char>& accmap) {
+acciones::acciones(const std::map<std::string, unsigned char>& accmap) {
 	datos = accmap;
 }
 
@@ -11,7 +12,7 @@ acciones::acciones(const acciones& otro) {
 }
 
 bool acciones::addAccion(const std::string& nombre, const unsigned char& ariedad) {
-	if(ariedad == 1 | ariedad == 2) {
+	if( (ariedad == 1) | (ariedad == 2) ) {
 		datos.insert(pair<string, unsigned char>(nombre, ariedad));
 		return true;
 	}
