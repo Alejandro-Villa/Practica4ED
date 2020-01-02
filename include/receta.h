@@ -9,7 +9,7 @@
 #ifndef RECETA
 #define RECETA
 
-//#include "instrucciones.h"
+#include "instrucciones.h"
 #include<string>
 #include<list>
 #include<iostream>

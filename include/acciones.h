@@ -9,6 +9,6 @@ class acciones {
 	private:
 		std::map<std::string, unsigned char> datos;
 
-}
+};
 
 #endif
