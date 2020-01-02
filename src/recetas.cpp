@@ -56,7 +56,7 @@ const receta recetas::operator[](const string& codigo) const {
 	return res;
 }
 istream& operator>>(std::istream& in, recetas& rs) {
-	while(((!in.peek()) != EOF) && (in.good())) {
+	while(((in.peek()) != EOF) && (in.good())) {
 		receta r;
 		in >> r;
 		rs.addReceta(r);
