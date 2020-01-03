@@ -14,12 +14,15 @@ class instrucciones {
 	
 	public:
 		static acciones &acc;
-		static int prueba;
 		
 		instrucciones() {};
 		instrucciones(const instrucciones& otro);
+		instrucciones(const ArbolBinario<std::string> arbol);
 
 		inline acciones getAcciones() const {return acc;};
 		inline ArbolBinario<std::string> getArbol() const {return datos;};
+
+		friend ostream& operator<<(ostream& os, const instrucciones& ins);
+		instrucciones& operator=(const instrucciones& rhs);
 };
 #endif
