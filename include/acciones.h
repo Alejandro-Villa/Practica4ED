@@ -4,6 +4,7 @@
 
 #include<string>
 #include<map>
+#include<iostream>
 //#include<pair>
 //#include<utility>
 
@@ -22,5 +23,7 @@ class acciones {
 		unsigned char operator[] (const std::string& nombre) const {return datos.at(nombre);};
 
 		bool addAccion(const std::string& nombre, const unsigned char& ariedad);
+
+		friend std::istream& operator>>(std::istream& in, acciones& acc);
 };
 #endif
