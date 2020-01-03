@@ -71,6 +71,9 @@ class ingredientes {
 		 * @retval unsigned Número de ingredientes.
 		 */
 		unsigned size() const;
+
+		inline bool empty() {return datos.empty();};
+
 		/**
 		 * @brief Imprime los ingredientes por orden alfabético de tipo.
 		 *
@@ -360,6 +363,7 @@ class ingredientes {
 		 */
 		//unsigned existeIndice(const ingrediente& buscado) const;
 		iterator existeIndice(const ingrediente& buscado) const;
+
 };
 
 #endif
