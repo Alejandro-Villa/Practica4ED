@@ -69,7 +69,7 @@ class recetas {
 			 * @pre El código de @a nueva debe ser diferente a los ya almacenados, sino no añade.
 			 * @post @a nueva es añadida.
 			 */
-			void addReceta(const receta& nueva);
+			void addReceta(receta nueva);
 			/**
 			 * @brief Inicializa los nutrientes de las recetas.
 			 *
@@ -87,7 +87,6 @@ class recetas {
 			 * @retval "False" si @a datos tiene elementos.
 			 */
 			bool empty() {return datos.empty();};
-
 			inline void getIngredientes(istream& is) {is >> allingre;}
 			
 			/**
@@ -165,6 +164,8 @@ class recetas {
 			 * @brief Iterador constante al fin de @a this.
 			 */
 			const_iterator end() const;
+
+			recetas::iterator findReceta(const string& key);
 }; // end recetas
 
 #endif

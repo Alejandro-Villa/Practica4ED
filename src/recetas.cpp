@@ -11,10 +11,9 @@ unsigned recetas::size() const {
    return datos.size();
 } 
 
-void recetas::addReceta(const receta& nueva) {
+void recetas::addReceta(receta nueva) {
 		pair<string, receta> nelem = make_pair(nueva.getCode(), nueva);
-		pair<map<string, receta>::iterator, bool> res;
-		res	= datos.insert(nelem);
+		datos.insert(nelem);
 }
 
 void recetas::borrar(const string codigo) {
@@ -58,19 +57,31 @@ const receta recetas::operator[](const string& codigo) const {
 	return res;
 }
 istream& operator>>(std::istream& in, recetas& rs) {
-		if(!rs.allingre.empty()) {
-			while(((in.peek()) != EOF) && (in.good())) {
-				receta r;
-				r.cargaIngredientes(rs.allingre);
-				in >> r;
-				rs.addReceta(r);
-			}
+	if(!rs.allingre.empty()) {
+		while(((in.peek()) != EOF) && (in.good())) {
+			receta r;
+			r.cargaIngredientes(rs.allingre);
+			in >> r;
+			rs.addReceta(r);
 		}
-		else {
-			cerr << "ERR: recetas operator>>: No se han definido ingredientes" << endl;
-			exit(EXIT_FAILURE);
-		}
-			return in;
+		for(auto i = rs.begin(); i != rs.end(); ++i)
+			(*i).cargaIngredientes(rs.allingre);
+	}
+	else {
+		cerr << "ERR: recetas operator>>: No se han definido ingredientes" << endl;
+		exit(EXIT_FAILURE);
+	}
+
+
+	return in;
+}
+
+recetas::iterator recetas::findReceta(const string& key) {
+	for(auto i = begin(); i != end(); ++i)
+		if((*i).getCode() == key)
+			return i;
+
+	return end();
 }
 
 ostream& operator<<(std::ostream& out, const recetas& rs) {

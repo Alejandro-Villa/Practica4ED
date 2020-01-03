@@ -114,6 +114,7 @@ class receta {
 		void cargaIngredientes(istream& is);
 		void cargaIngredientes(const string& pathname);
 		inline void cargaIngredientes(const ingredientes& todos) {disp = todos;};
+		inline ostream& muestraInstrucciones(ostream& os) const {os << inst; return os;};
 
 		/**
 		 * @brief Operador de asignación.

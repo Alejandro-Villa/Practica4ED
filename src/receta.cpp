@@ -149,7 +149,6 @@ void receta::cargaInstrucciones(istream& is) {
 	 */
 	string linea, accion, ingr1, ingr2;
 	std::stack<ArbolBinario<string>> pila;
-	ArbolBinario<string> tmp;
 	int ari, pos;
 	acciones tmpacc(inst.getAcciones());
 	
@@ -167,34 +166,82 @@ void receta::cargaInstrucciones(istream& is) {
 		if(!linea.empty()) {
 			if(ari == '1')  {
 				ingr1 = linea;
-				if(disp.get(ingr1).getNombre() == "Undefined")
+				if(disp.get(ingr1).getNombre() == "Undefined") {
 					cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr1 << " no está registrado." << endl;
-				cout << "Accion: " << accion << " Ingrediente: " << ingr1 << endl;
+					exit(EXIT_FAILURE);
+				}
+				else {
+					// Construimos el árbol de la acción.
+					ArbolBinario<string> tmp(accion);
+					tmp.Insertar_Hi(tmp.getRaiz(), ingr1);
+					// Lo añadimos al tope de la pila.
+					pila.push(tmp);
+				}
 			}
 			else if(ari == '2') {
 				pos = 0;
-				do {
-					++pos;
-					if( linea.empty() || ((pos = linea.find_first_of(" ", pos) ) == (int) linea.npos) ) {
-						cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr1 << " no está registrado." << endl;
-						break;
-					}
-					ingr1 = linea.substr(0, pos);
-					cout << "Comprobando: " << ingr1 << endl;
-				} while (disp.get(ingr1).getNombre() == "Undefined");
-				ingr2 = linea.substr(pos, linea.npos);
-				
-				while(ingr2.front() == ' ')
-					ingr2.erase(ingr2.begin());
-				while(ingr2.back() == ' ')
-					ingr2.pop_back();
+				if(disp.get(linea).getNombre() == "Undefined") {
+					do {
+						++pos;
+						if( linea.empty() || ((pos = linea.find_first_of(" ", pos) ) == (int) linea.npos) ) {
+							cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr1 << " no está registrado." << endl;
+							break;
+						}
+						ingr1 = linea.substr(0, pos);
+						cout << "Comprobando: " << ingr1 << endl;
+					} while (disp.get(ingr1).getNombre() == "Undefined");
+					ingr2 = linea.substr(pos, linea.npos);
+					
+					while(ingr2.front() == ' ')
+						ingr2.erase(ingr2.begin());
+					while(ingr2.back() == ' ')
+						ingr2.pop_back();
+					
+					if(disp.get(ingr2).getNombre() == "Undefined")
+						cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr2 << " no está registrado." << endl;
 
-				if(disp.get(ingr2).getNombre() == "Undefined")
-					cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr2 << " no está registrado." << endl;
-				cout << "Accion: " << accion << " Ingrediente 1: " << ingr1 << " Ingrediente 2: " << ingr2 << endl;
+					ArbolBinario<string> tmp(accion);
+					tmp.Insertar_Hi(tmp.getRaiz(), ingr1);
+					tmp.Insertar_Hd(tmp.getRaiz(), ingr2);
+					pila.push(tmp);
+				}
+				else {
+					ingr1 = linea;
+					// Buscamos el segundo ingrediente, que sería el tope de la pila
+					ArbolBinario<string> tmp(accion);
+					tmp.Insertar_Hd(tmp.getRaiz(), ingr1);
+					tmp.Insertar_Hi(tmp.getRaiz(), pila.top());
+					pila.pop();
+					pila.push(tmp);
+				}
+			}
+			instrucciones tmpins(pila.top());
+			inst = tmpins;
+		}
+		else {
+			// Buscamos 1 o 2 ingredientes en la pila.
+			if(ari == '1') {
+				ArbolBinario<string> tmp(accion);
+				tmp.Insertar_Hi(tmp.getRaiz(), pila.top());
+				pila.pop();
+				pila.push(tmp);
+			}
+			if(ari == '2') {
+				ArbolBinario<string> tmp(accion);
+				tmp.Insertar_Hd(tmp.getRaiz(), pila.top());
+				pila.pop();
+				tmp.Insertar_Hi(tmp.getRaiz(), pila.top());
+				pila.pop();
+				pila.push(tmp);
 			}
 		}
 	}
+}
+
+void receta::cargaInstrucciones(const string& pathname) {
+	ifstream fin(pathname);
+
+	cargaInstrucciones(fin);
 }
 
 void receta::cargaIngredientes(istream& is) {
