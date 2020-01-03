@@ -19,4 +19,3 @@ R18;3;Macedonia de Futas;Platano 30;Manzana 30;Kiwi 30;Naranja 50;Estevia 10
 R19;3;Flan;Flan Huevo, De 150
 R20;3;Yogourth a la Miel;Miel 50;Yogur Desnatado 100
 R21;1;Arroz a la Cubana;Arroz Integral 200;Sal 1;Tomate Frito 200;Huevo 50;Platano 75
-
