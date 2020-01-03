@@ -33,4 +33,6 @@ istream& operator>>(istream& in, acciones& acc) {
 			break;
 		}
 	}
+
+	return in;
 }
