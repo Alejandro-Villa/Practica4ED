@@ -1,5 +1,6 @@
 #include "acciones.h"
 #include<iostream>
+#include<exception>
 
 using namespace std;
 
@@ -35,4 +36,26 @@ istream& operator>>(istream& in, acciones& acc) {
 	}
 
 	return in;
+}
+
+unsigned char acciones::operator[] (const string& nombre) {
+	unsigned char retval = '0';
+	try {
+		return datos.at(nombre);
+	}
+	catch(exception& e) {
+		return '0';
+	}
+}
+
+unsigned char acciones::operator[] (const string& nombre) const {
+	unsigned char retval = '0';
+	try {
+		retval = datos.at(nombre);
+	}
+	catch(exception& e) {
+		retval = '0';
+	}
+
+	return retval;
 }

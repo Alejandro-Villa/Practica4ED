@@ -19,8 +19,8 @@ class acciones {
 		//inline unsigned char getAriedad(const std::string& nombre) const {return datos.at(nombre);};
 
 		//std::pair<std::string, unsigned char>& operator[] (const std::string& nombre) {return std::makepair(nombre, datos[nombre]);};
-		unsigned char& operator[] (const std::string& nombre) {return datos.at(nombre);};
-		unsigned char operator[] (const std::string& nombre) const {return datos.at(nombre);};
+		unsigned char operator[] (const std::string& nombre);
+		unsigned char operator[] (const std::string& nombre) const;
 
 		bool addAccion(const std::string& nombre, const unsigned char& ariedad);
 
