@@ -47,10 +47,6 @@ ingredientes::ingredientes(const ingredientes& original) {
 unsigned ingredientes::size() const {
 	return datos.size();
 }
-ingredientes::iterator ingredientes::existeDatos(const ingrediente& buscado, bool &encontrado) const {
-	encontrado = false;
-
-}
 
 bool comparaNombre(const ingrediente& primero, const ingrediente& segundo) {
 	return primero.getNombre() < segundo.getNombre();
