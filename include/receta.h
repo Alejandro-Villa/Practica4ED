@@ -10,6 +10,7 @@
 #define RECETA
 
 #include "instrucciones.h"
+#include "ingredientes.h"
 #include<string>
 #include<list>
 #include<iostream>
@@ -61,7 +62,8 @@ class receta {
 		double fibra;
 
 		// NUEVO PRACTICA 4
-		//instrucciones inst;
+		instrucciones inst;
+		ingredientes disp;
 
 	public:
 		/**
@@ -97,16 +99,21 @@ class receta {
 		inline double getProteinas() const {return proteinas;};
 		inline double getFibra() const {return fibra;};
 
-
 		void setCode(const std::string& codigo) {code = codigo;};
 		void setPlato(const unsigned& pl) {plato = pl;};
 		void setNombre(const std::string& name) {nombre = name;};
-		void addIngre(const std::pair<std::string, unsigned>& nuevo) {ings.push_back(nuevo);};
 		void setCalorias(const double& cal) {calorias = cal;};
 		void setHc(const double& HC) {hc = HC;};
 		void setGrasas(const double& gra) {grasas = gra;};
 		void setProteinas(const double& prote) {proteinas = prote;};
 		void setFibra(const double& fib) {fibra = fib;};
+		
+		void addIngre(const std::pair<std::string, unsigned>& nuevo);
+		void cargaInstrucciones(istream& is);
+		void cargaInstrucciones(const string& pathname);
+		void cargaIngredientes(istream& is);
+		void cargaIngredientes(const string& pathname);
+		inline void cargaIngredientes(const ingredientes& todos) {disp = todos;};
 
 		/**
 		 * @brief Operador de asignación.

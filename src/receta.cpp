@@ -1,6 +1,7 @@
 #include "receta.h"
 #include<utility>
 #include<regex>
+#include<fstream>
 
 using namespace std;
 
@@ -67,6 +68,23 @@ receta& receta::operator=(const receta& rhs) {
 	return *this;
 }
 
+void receta::addIngre(const pair<string, unsigned>& nuevo) {
+	ingrediente tmp;
+	tmp = disp.get(nuevo.first);
+	if(tmp.getNombre() != "Undefined") {
+		double num = nuevo.second / (double)100;
+
+		ings.push_back(nuevo);
+		calorias += num * tmp.getCalorias();
+		hc += num * tmp.getHc();
+		grasas += num * tmp.getGrasas();
+		proteinas += num * tmp.getProteinas();
+		fibra += num * tmp.getFibra();
+	}
+	else 
+		cerr << "ERR: addIngre(): el ingrediente " << nuevo.first << " no existe." << endl;
+}
+
 ostream& operator<<(ostream& out, const receta& r) {
 	char sep = ';';
 	out << r.code << sep << r.plato << sep << r.nombre << sep;
@@ -117,4 +135,74 @@ istream& operator>>(istream& in, receta& r) {
 	}
 
 	return in;
+}
+
+void receta::cargaInstrucciones(istream& is) {
+	/*
+	 * PASOS:
+	 * 1.- Leer la línea. DONE
+	 * 2.- Separar la accion. DONE
+	 * 3.- Según la ariedad, buscar ingredientes en la linea o en la pila. 
+	 * 4.- Construir el árbol.
+	 * 5.- Añadirlo a la pila.
+	 * 6.- Repetir hasta EOF.
+	 */
+	string linea, accion, ingr1, ingr2;
+	std::stack<ArbolBinario<string>> pila;
+	ArbolBinario<string> tmp;
+	int ari, pos;
+	acciones tmpacc(inst.getAcciones());
+	
+	while(is.good() && (is.peek() != EOF)) {
+		is >> accion;
+		getline(is, linea);
+
+		while(linea.front() == ' ')
+			linea.erase(linea.begin());
+		while(linea.back() == ' ')
+			linea.pop_back();
+
+		ari = tmpacc[accion];
+
+		if(!linea.empty()) {
+			if(ari == '1')  {
+				ingr1 = linea;
+				if(disp.get(ingr1).getNombre() == "Undefined")
+					cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr1 << " no está registrado." << endl;
+				cout << "Accion: " << accion << " Ingrediente: " << ingr1 << endl;
+			}
+			else if(ari == '2') {
+				pos = 0;
+				do {
+					++pos;
+					if( linea.empty() || ((pos = linea.find_first_of(" ", pos) ) == (int) linea.npos) ) {
+						cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr1 << " no está registrado." << endl;
+						break;
+					}
+					ingr1 = linea.substr(0, pos);
+					cout << "Comprobando: " << ingr1 << endl;
+				} while (disp.get(ingr1).getNombre() == "Undefined");
+				ingr2 = linea.substr(pos, linea.npos);
+				
+				while(ingr2.front() == ' ')
+					ingr2.erase(ingr2.begin());
+				while(ingr2.back() == ' ')
+					ingr2.pop_back();
+
+				if(disp.get(ingr2).getNombre() == "Undefined")
+					cerr << "ERR: cargaInstrucciones(): el ingrediente " << ingr2 << " no está registrado." << endl;
+				cout << "Accion: " << accion << " Ingrediente 1: " << ingr1 << " Ingrediente 2: " << ingr2 << endl;
+			}
+		}
+	}
+}
+
+void receta::cargaIngredientes(istream& is) {
+	is >> disp;
+}
+
+void receta::cargaIngredientes(const string& pathname) {
+	ifstream fin(pathname);
+	
+	cargaIngredientes(fin);
 }

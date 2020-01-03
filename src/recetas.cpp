@@ -21,6 +21,7 @@ void recetas::borrar(const string codigo) {
 	datos.erase(codigo);
 }
 
+/*
 void recetas::setNutrientes(const ingredientes& ings) {
 	for (auto i=begin(); i != end(); ++i) {
 		for (auto j=(*i).begin(); j != (*i).end(); ++j) {
@@ -35,6 +36,7 @@ void recetas::setNutrientes(const ingredientes& ings) {
 		}
 	}
 }
+*/
 
 receta recetas::operator[](const string& codigo) {
 	receta res;
@@ -56,13 +58,19 @@ const receta recetas::operator[](const string& codigo) const {
 	return res;
 }
 istream& operator>>(std::istream& in, recetas& rs) {
-	while(((in.peek()) != EOF) && (in.good())) {
-		receta r;
-		in >> r;
-		rs.addReceta(r);
-	}
-
-	return in;
+		if(!rs.allingre.empty()) {
+			while(((in.peek()) != EOF) && (in.good())) {
+				receta r;
+				r.cargaIngredientes(rs.allingre);
+				in >> r;
+				rs.addReceta(r);
+			}
+		}
+		else {
+			cerr << "ERR: recetas operator>>: No se han definido ingredientes" << endl;
+			exit(EXIT_FAILURE);
+		}
+			return in;
 }
 
 ostream& operator<<(std::ostream& out, const recetas& rs) {

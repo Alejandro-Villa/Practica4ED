@@ -28,6 +28,10 @@ class recetas {
 		 * @brief Mapa de receta con sus claves
 		 */
 		std::map<std::string, receta> datos;
+		/**
+		 * @brief Ingredientes disponibles para las recetas
+		 */
+		ingredientes allingre;
 	public:
 			/**
 			 * @brief Constructor por defecto.
@@ -75,7 +79,7 @@ class recetas {
 			 * @param "const ingredientes& ings" El objeto que se usará para actualizar @a this.
 			 * @post Cambian los macronutrientes de todas las recetas.
 			 */
-			void setNutrientes(const ingredientes& ings);
+			//void setNutrientes(const ingredientes& ings);
 			/**
 			 * @brief Comprueba si @a datos está vacío.
 			 *
@@ -83,6 +87,8 @@ class recetas {
 			 * @retval "False" si @a datos tiene elementos.
 			 */
 			bool empty() {return datos.empty();};
+
+			inline void getIngredientes(istream& is) {is >> allingre;}
 			
 			/**
 			 * @brief Operador de acceso a receta.
