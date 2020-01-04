@@ -142,10 +142,11 @@ void receta::cargaInstrucciones(istream& is) {
 	 * PASOS:
 	 * 1.- Leer la línea. DONE
 	 * 2.- Separar la accion. DONE
-	 * 3.- Según la ariedad, buscar ingredientes en la linea o en la pila. 
-	 * 4.- Construir el árbol.
-	 * 5.- Añadirlo a la pila.
-	 * 6.- Repetir hasta EOF.
+	 * 3.- Según la ariedad, buscar ingredientes en la linea o en la pila. DONE
+	 * 4.- Construir el árbol. DONE
+	 * 5.- Añadirlo a la pila. DONE
+	 * 6.- Repetir hasta EOF. DONE
+	 * 7.- Bugfix
 	 */
 	string linea, accion, ingr1, ingr2;
 	std::stack<ArbolBinario<string>> pila;
@@ -215,8 +216,7 @@ void receta::cargaInstrucciones(istream& is) {
 					pila.push(tmp);
 				}
 			}
-			instrucciones tmpins(pila.top());
-			inst = tmpins;
+
 		}
 		else {
 			// Buscamos 1 o 2 ingredientes en la pila.
@@ -236,6 +236,8 @@ void receta::cargaInstrucciones(istream& is) {
 			}
 		}
 	}
+	instrucciones tmpins(pila.top());
+	inst = tmpins;
 }
 
 void receta::cargaInstrucciones(const string& pathname) {
