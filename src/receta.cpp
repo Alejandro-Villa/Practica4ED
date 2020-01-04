@@ -54,6 +54,16 @@ receta::const_iterator receta::end() const {
 	return ite;
 }
 
+receta::iterator receta::find(const string& nombre) {
+	iterator pos = end();
+
+	for (auto i = begin(); i != end(); ++i)
+		if((*i).first == nombre)
+			pos = i;
+
+	return pos;
+}
+
 receta& receta::operator=(const receta& rhs) {
 	code = rhs.code;
 	plato = rhs.plato;
@@ -71,10 +81,17 @@ receta& receta::operator=(const receta& rhs) {
 void receta::addIngre(const pair<string, unsigned>& nuevo) {
 	ingrediente tmp;
 	tmp = disp.get(nuevo.first);
-	if(tmp.getNombre() != "Undefined") {
-		double num = nuevo.second / (double)100;
 
-		ings.push_back(nuevo);
+	if(tmp.getNombre() != "Undefined") {
+		// Comprobamos si el ingrediente ya existe.	
+		iterator pos;
+		if( (pos = find(tmp.getNombre())) != end())
+			++(*pos).second;
+		else
+			ings.push_back(nuevo);
+
+		// Ajustamos los valores nutricionales.	
+		double num = nuevo.second / (double)100;
 		calorias += num * tmp.getCalorias();
 		hc += num * tmp.getHc();
 		grasas += num * tmp.getGrasas();
@@ -140,13 +157,12 @@ istream& operator>>(istream& in, receta& r) {
 void receta::cargaInstrucciones(istream& is) {
 	/*
 	 * PASOS:
-	 * 1.- Leer la línea. DONE
-	 * 2.- Separar la accion. DONE
-	 * 3.- Según la ariedad, buscar ingredientes en la linea o en la pila. DONE
-	 * 4.- Construir el árbol. DONE
-	 * 5.- Añadirlo a la pila. DONE
-	 * 6.- Repetir hasta EOF. DONE
-	 * 7.- Bugfix
+	 * 1.- Leer la línea.
+	 * 2.- Separar la accion.
+	 * 3.- Según la ariedad, buscar ingredientes en la linea o en la pila.
+	 * 4.- Construir el árbol.
+	 * 5.- Añadirlo a la pila.
+	 * 6.- Repetir hasta EOF.
 	 */
 	string linea, accion, ingr1, ingr2;
 	std::stack<ArbolBinario<string>> pila;
@@ -254,4 +270,43 @@ void receta::cargaIngredientes(const string& pathname) {
 	ifstream fin(pathname);
 	
 	cargaIngredientes(fin);
+}
+
+receta receta::operator+(const receta& rhs) {
+	receta fusion;
+	string newcode, newname;
+	unsigned newplato;
+	instrucciones newinst;
+	
+	newcode = "F_";
+	newcode += getCode();
+	newcode += "_";
+	newcode += rhs.getCode();
+	fusion.setCode(newcode);
+	
+	newname = "Fusión ";
+	newname += getNombre();
+	newname += " y ";
+	newname += getNombre();
+	fusion.setNombre(newname);
+
+	// Si alguno es un primero, el resultado es un primero.
+	// Si ambos son segundos, o segundo y postre, el resultado es segundo.
+	// Si ambos son postre, el resultado es postre.
+	if(getPlato() < rhs.getPlato())
+		newplato = getPlato();
+	else
+		newplato = rhs.getPlato();
+	fusion.setPlato(newplato);
+
+	for (auto i = begin(); i != end(); ++i)
+		fusion.addIngre( make_pair((*i).first, (*i).second) );
+	for (auto i = rhs.begin(); i != rhs.end(); ++i)
+		fusion.addIngre( make_pair((*i).first, (*i).second) );
+
+	newinst = inst + rhs.inst;
+	cargaInstrucciones(newinst);
+	cargaIngredientes(disp);
+
+	return fusion;
 }

@@ -111,11 +111,13 @@ class receta {
 		void addIngre(const std::pair<std::string, unsigned>& nuevo);
 		void cargaInstrucciones(istream& is);
 		void cargaInstrucciones(const string& pathname);
+		inline void cargaInstrucciones(const instrucciones& otro) {inst = otro;};
 		void cargaIngredientes(istream& is);
 		void cargaIngredientes(const string& pathname);
 		inline void cargaIngredientes(const ingredientes& todos) {disp = todos;};
 		inline ostream& muestraInstrucciones(ostream& os) const {os << inst; return os;};
 
+		receta operator+(const receta& rhs);
 		/**
 		 * @brief Operador de asignación.
 		 */
@@ -192,5 +194,7 @@ class receta {
 		 * @retval "iterator" Iterador constante al fin de @a this
 		 */
 		const_iterator end() const;
+
+		iterator find(const string& nombre);
 }; // end receta
 #endif

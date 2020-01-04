@@ -39,3 +39,14 @@ ostream& operator<<(ostream& os, const instrucciones& ins) {
 	}
 	return os;
 }
+
+instrucciones instrucciones::operator+(const instrucciones& rhs) {
+	ArbolBinario<string> tmp("Acompañar");
+	ArbolBinario<string> arbol1(getArbol());
+	ArbolBinario<string> arbol2(rhs.getArbol());
+	tmp.Insertar_Hi(tmp.getRaiz(), arbol1);
+	tmp.Insertar_Hd(tmp.getRaiz(), arbol2);
+
+	instrucciones fusion(tmp);
+	return fusion;
+}

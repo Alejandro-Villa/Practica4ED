@@ -24,5 +24,6 @@ class instrucciones {
 
 		friend ostream& operator<<(ostream& os, const instrucciones& ins);
 		instrucciones& operator=(const instrucciones& rhs);
+		instrucciones operator+(const instrucciones& rhs);
 };
 #endif
