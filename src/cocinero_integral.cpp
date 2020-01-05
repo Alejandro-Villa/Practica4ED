@@ -33,6 +33,8 @@ void ArgErr() {
 	exit(EXIT_FAILURE);
 }
 
+string makepathtoins(const string& base, const string& rcode);
+
 int main(int argc, char* argv[]) {
 	if(argc != 5)
 		ArgErr();
@@ -120,17 +122,75 @@ int main(int argc, char* argv[]) {
 	cout << setw(8) << left << " " << "Proteínas " << (*pos).getProteinas() << endl;
 	cout << setw(8) << left << " " << "Fibra: " << (*pos).getFibra() << endl;
 
-	string pathtorinst;
-	pathtorinst += pathtoinst;
-	pathtorinst += '/';
-	pathtorinst += (*pos).getCode();
-	pathtorinst += "m.txt";
+	string pathtorinst = makepathtoins(pathtoinst, (*pos).getCode());
 
 	(*pos).cargaInstrucciones(pathtorinst);
 
-	cout << left << UNDL("Pasos a Seguir:");
+	cout << left << UNDL("Pasos a Seguir:") << endl;
 
 	(*pos).muestraInstrucciones(cout);
 
+	string code1, code2;
+	cout << endl << "Elige dos códigos para fusionar: " << endl << setw(8) << " " << "Código 1: ";
+	cin >> code1;
+
+	recetas::iterator pos1 = allrecetas.end();
+	if((pos1 = allrecetas.findReceta(code1)) == allrecetas.end()) {
+		cerr << FRED("El código introducido no es válido o no existe") << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	string r1path = makepathtoins(pathtoinst, (*pos1).getCode());
+	(*pos1).cargaInstrucciones(r1path);
+
+	cout << setw(8) << " " << "Código 2: ";
+	cin >> code2;
+
+	recetas::iterator pos2 = allrecetas.end();
+	if((pos2 = allrecetas.findReceta(code2)) == allrecetas.end()) {
+		cerr << FRED("El código introducido no es válido o no existe") << endl;
+		exit(EXIT_FAILURE);
+	}
+	
+	string r2path = makepathtoins(pathtoinst, (*pos2).getCode());
+	(*pos2).cargaInstrucciones(r2path);
+
+	receta r1 = (*pos1);
+	receta r2 = (*pos2);
+	//receta fusion = (*pos1) + (*pos2);
+	receta fusion;
+	fusion = r1 + r2;
+
+	cout << endl << fixed;
+	cout << setw(6) << left << FCYN("CODE: ") << setw(9) << left << fusion.getCode();
+	cout << setw(8) << left << FCYN("NOMBRE: ") << setw(40) << left << fusion.getNombre();
+	cout << setw(7) << left <<  FCYN("PLATO: ") << setw(2) << left << fusion.getPlato() << endl;
+
+	cout << left << UNDL("Ingredientes:") << endl;
+
+	for(auto i = fusion.begin(); i != fusion.end(); ++i)
+		cout << setw(8) << left << " " << (*i).first << " " << (*i).second << endl;
+
+	cout << left << UNDL("Valores Nutricionales:") << endl;
+	cout << setw(8) << left << " " << "Calorías: " << fusion.getCalorias() << endl;
+	cout << setw(8) << left << " " << "Hidratos de Carbono: " << fusion.getHc() << endl;
+	cout << setw(8) << left << " " << "Grasas: " << fusion.getGrasas() << endl;
+	cout << setw(8) << left << " " << "Proteínas " << fusion.getProteinas() << endl;
+	cout << setw(8) << left << " " << "Fibra: " << fusion.getFibra() << endl;
+
+	cout << left << UNDL("Pasos a Seguir:") << endl;
+
+	fusion.muestraInstrucciones(cout);
+
 	return 0;
+}
+
+string makepathtoins(const string& base, const string& rcode) {
+	string pathtorinst;
+	pathtorinst += base;
+	pathtorinst += '/';
+	pathtorinst += rcode;
+	pathtorinst += "m.txt";
+
+	return pathtorinst;
 }

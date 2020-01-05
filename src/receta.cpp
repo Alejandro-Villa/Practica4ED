@@ -2,6 +2,7 @@
 #include<utility>
 #include<regex>
 #include<fstream>
+#include "color.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ receta::receta(const receta& orig) {
 	grasas = orig.grasas;
 	proteinas = orig.proteinas;
 	fibra = orig.fibra;
+	disp = orig.disp;
+	inst = orig.inst;
 
 	for (auto i=orig.ings.begin(); i != orig.ings.end(); ++i)
 		ings.push_back(*i);
@@ -74,6 +77,8 @@ receta& receta::operator=(const receta& rhs) {
 	grasas = rhs.grasas;
 	proteinas = rhs.proteinas;
 	fibra = rhs.fibra;
+	disp = rhs.disp;
+	inst = rhs.inst;
 	
 	return *this;
 }
@@ -86,7 +91,7 @@ void receta::addIngre(const pair<string, unsigned>& nuevo) {
 		// Comprobamos si el ingrediente ya existe.	
 		iterator pos;
 		if( (pos = find(tmp.getNombre())) != end())
-			++(*pos).second;
+			(*pos).second += nuevo.second;
 		else
 			ings.push_back(nuevo);
 
@@ -258,6 +263,9 @@ void receta::cargaInstrucciones(istream& is) {
 
 void receta::cargaInstrucciones(const string& pathname) {
 	ifstream fin(pathname);
+	if(!fin) {
+		perror(FRED("cargaInstrucciones(): open()"));
+	}
 
 	cargaInstrucciones(fin);
 }
@@ -275,8 +283,6 @@ void receta::cargaIngredientes(const string& pathname) {
 receta receta::operator+(const receta& rhs) {
 	receta fusion;
 	string newcode, newname;
-	unsigned newplato;
-	instrucciones newinst;
 	
 	newcode = "F_";
 	newcode += getCode();
@@ -294,19 +300,18 @@ receta receta::operator+(const receta& rhs) {
 	// Si ambos son segundos, o segundo y postre, el resultado es segundo.
 	// Si ambos son postre, el resultado es postre.
 	if(getPlato() < rhs.getPlato())
-		newplato = getPlato();
+		fusion.setPlato(getPlato());
 	else
-		newplato = rhs.getPlato();
-	fusion.setPlato(newplato);
+		fusion.setPlato(rhs.getPlato());
+
+	fusion.cargaIngredientes(disp);
 
 	for (auto i = begin(); i != end(); ++i)
 		fusion.addIngre( make_pair((*i).first, (*i).second) );
 	for (auto i = rhs.begin(); i != rhs.end(); ++i)
 		fusion.addIngre( make_pair((*i).first, (*i).second) );
 
-	newinst = inst + rhs.inst;
-	cargaInstrucciones(newinst);
-	cargaIngredientes(disp);
-
+	fusion.inst = inst + rhs.inst;
+	
 	return fusion;
 }

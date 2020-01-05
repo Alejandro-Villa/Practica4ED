@@ -120,6 +120,9 @@ class ingredientes {
 		 * @retval "ingredientes" Todos los ingredientes son de tipo @a tipo.
 		 */
 		ingredientes getIngredienteTipo(std::string tipo) const;
+	
+		ingredientes& operator=(const ingredientes& rhs);
+
 		/**
 		 * @brief Clase Iterador.
 		 *

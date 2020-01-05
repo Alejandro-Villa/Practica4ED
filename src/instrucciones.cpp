@@ -23,7 +23,6 @@ instrucciones& instrucciones::operator=(const instrucciones& rhs) {
 ostream& operator<<(ostream& os, const instrucciones& ins) {
 	stack<string> pilaingre;
 
-	os << endl;
 	for(auto i = ins.datos.beginpostorden(); i != ins.datos.endpostorden(); ++i) {
 		if(ins.acc[(*i)] == '0') { // Esto indica que la etiqueta del nodo es una acción.
 			pilaingre.push((*i)); // Si es un ingrediente, lo almacena en la pila.
@@ -44,9 +43,11 @@ instrucciones instrucciones::operator+(const instrucciones& rhs) {
 	ArbolBinario<string> tmp("Acompañar");
 	ArbolBinario<string> arbol1(getArbol());
 	ArbolBinario<string> arbol2(rhs.getArbol());
+	
 	tmp.Insertar_Hi(tmp.getRaiz(), arbol1);
 	tmp.Insertar_Hd(tmp.getRaiz(), arbol2);
 
 	instrucciones fusion(tmp);
+
 	return fusion;
 }

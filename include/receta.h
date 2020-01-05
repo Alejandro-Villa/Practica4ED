@@ -99,14 +99,14 @@ class receta {
 		inline double getProteinas() const {return proteinas;};
 		inline double getFibra() const {return fibra;};
 
-		void setCode(const std::string& codigo) {code = codigo;};
-		void setPlato(const unsigned& pl) {plato = pl;};
-		void setNombre(const std::string& name) {nombre = name;};
-		void setCalorias(const double& cal) {calorias = cal;};
-		void setHc(const double& HC) {hc = HC;};
-		void setGrasas(const double& gra) {grasas = gra;};
-		void setProteinas(const double& prote) {proteinas = prote;};
-		void setFibra(const double& fib) {fibra = fib;};
+		inline void setCode(const std::string& codigo) {code = codigo;};
+		inline void setPlato(const unsigned& pl) {plato = pl;};
+		inline void setNombre(const std::string& name) {nombre = name;};
+		inline void setCalorias(const double& cal) {calorias = cal;};
+		inline void setHc(const double& HC) {hc = HC;};
+		inline void setGrasas(const double& gra) {grasas = gra;};
+		inline void setProteinas(const double& prote) {proteinas = prote;};
+		inline void setFibra(const double& fib) {fibra = fib;};
 		
 		void addIngre(const std::pair<std::string, unsigned>& nuevo);
 		void cargaInstrucciones(istream& is);

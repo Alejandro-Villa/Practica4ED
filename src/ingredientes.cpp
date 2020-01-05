@@ -188,3 +188,10 @@ void ingredientes::borrar(string nombre) {
 
 	}
 }
+
+ingredientes& ingredientes::operator= (const ingredientes& rhs) {
+	datos = rhs.datos;
+	indice = rhs.indice;
+	
+	return *this;
+}
