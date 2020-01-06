@@ -60,9 +60,13 @@ class receta {
 		 * @brief Fibra de la receta.
 		 */
 		double fibra;
-
-		// NUEVO PRACTICA 4
+		/*
+		 * @brief Instrucciones para realizar la receta.
+		 */
 		instrucciones inst;
+		/**
+		 * @brief ingredientes disponibles o válidos para la receta.
+		 */
 		ingredientes disp;
 
 	public:
@@ -82,7 +86,6 @@ class receta {
 		 * @post @a this ahora contiene una copia de @a original.
 		 */
 		receta(const receta& original);
-
 		/**
 		 * @brief Halla el número de ingredientes en la receta.
 		 *
@@ -108,15 +111,56 @@ class receta {
 		inline void setProteinas(const double& prote) {proteinas = prote;};
 		inline void setFibra(const double& fib) {fibra = fib;};
 		
+		/**
+		 * @brief Añade uno o varios ingredientes a la receta.
+		 *
+		 * @param "const std::pair<std::string, unsigned>& nuevo" Representa el ingrediente(s) que se añade(n).
+		 */
 		void addIngre(const std::pair<std::string, unsigned>& nuevo);
+		/**
+		 * @brief Carga instrucciones desde un flujo de entrada ya abierto.
+		 */
 		void cargaInstrucciones(istream& is);
+		/**
+		 * @brief Carga instrucciones de un archivo con ruta @a pathname.
+		 * @note Llama al método con parámetro @c istream
+		 *
+		 * @see cargaInstrucciones(istream& is).
+		 */
 		void cargaInstrucciones(const string& pathname);
+		/**
+		 * @brief Carga instrucciones desde un objeto en memoria.
+		 */
 		inline void cargaInstrucciones(const instrucciones& otro) {inst = otro;};
+		/**
+		 * @brief Carga ingredientes desde un flujo de entrada ya abierto.
+		 */
 		void cargaIngredientes(istream& is);
+		/**
+		 * @brief Carga ingredientes de un archivo con ruta @a pathname.
+		 * @note Llama al método con parámetro @c istream
+		 *
+		 * @see cargaIngredientes(istream& is).
+		 */
 		void cargaIngredientes(const string& pathname);
+		/**
+		 * @brief Carga ingredientes desde un objeto en memoria.
+		 */
 		inline void cargaIngredientes(const ingredientes& todos) {disp = todos;};
+		/**
+		 * @brief Muestra las instrucciones por el flujo de salida @a os.
+		 */
 		inline ostream& muestraInstrucciones(ostream& os) const {os << inst; return os;};
-
+		/**
+		 * @brief operador de "suma" o fusión de dos recetas.
+		 *
+		 * Une dos recetas en una, de la siguiente forma:
+		 * - Código: "F_RXX_RYY" donde RXX es el código de la receta a la izquierda de "+" y RYY la receta a la derecha de "+".
+		 * - Nombre: "Fusión de RECETA1 y RECETA2"
+		 * - Plato: Primero si alguno es primero, segundo si ambos son segundo, o uno postre y postre si ambos son postre.
+		 * - Ingredientes: los de ambas recetas, combinandose también la información nutricional.
+		 * - Instrucciones: la fusión de ambas.
+		 */
 		receta operator+(const receta& rhs);
 		/**
 		 * @brief Operador de asignación.
@@ -194,7 +238,12 @@ class receta {
 		 * @retval "iterator" Iterador constante al fin de @a this
 		 */
 		const_iterator end() const;
-
+		/**
+		 * @brief Busca un ingrediente.
+		 *
+		 * @param "const std::string& nombre" Ingrediente a buscar.
+		 * @retval "iterator" La posición del ingrediente, o @a receta::end() si no se encuentra.
+		 */
 		iterator find(const string& nombre);
 }; // end receta
-#endif
+#endif // end RECETA
