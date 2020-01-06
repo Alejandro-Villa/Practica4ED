@@ -8,8 +8,6 @@
 #define INGREDIENTES
 
 #include "ingrediente.h"
-#include <iostream>
-#include <string>
 #include <vector>
 /**
  * @brief Clase que representa un conjunto de ingredientes.

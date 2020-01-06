@@ -11,9 +11,7 @@
 
 #include "instrucciones.h"
 #include "ingredientes.h"
-#include<string>
 #include<list>
-#include<iostream>
 
 /**
  * @brief Clase receta, representa una receta de cocina.

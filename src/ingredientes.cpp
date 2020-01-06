@@ -3,10 +3,6 @@
  * @brief Implementación de la clase @c ingredientes::ingredientes.
  */
 #include "ingredientes.h"
-#include "ingrediente.h"
-#include <iostream>
-#include <string>
-#include <vector>
 #include <algorithm>
 /**
  * @brief Directiva de preprocesamiento para depuración.

@@ -10,11 +10,7 @@
 #define RECETAS
 
 #include "receta.h"
-#include "ingredientes.h"
-#include<string>
-#include<map>
 #include<utility>
-#include<iostream>
 
 /**
  * @brief Clase recetas, para manejar un conjunto de recetas distintas.
@@ -71,24 +67,16 @@ class recetas {
 			 */
 			void addReceta(receta nueva);
 			/**
-			 * @brief Inicializa los nutrientes de las recetas.
-			 *
-			 * Usando el objeto ingredientes que se le ha pasado como argumento, 
-			 * actualiza los valores nutricionales de @a this.
-			 *
-			 * @param "const ingredientes& ings" El objeto que se usará para actualizar @a this.
-			 * @post Cambian los macronutrientes de todas las recetas.
-			 */
-			//void setNutrientes(const ingredientes& ings);
-			/**
 			 * @brief Comprueba si @a datos está vacío.
 			 *
 			 * @retval "True" si @a datos está vacío.
 			 * @retval "False" si @a datos tiene elementos.
 			 */
 			bool empty() {return datos.empty();};
+			/**
+			 * @brief Lee los ingredientes desde un flujo de entrada.
+			 */
 			inline void getIngredientes(istream& is) {is >> allingre;}
-			
 			/**
 			 * @brief Operador de acceso a receta.
 			 *
@@ -164,8 +152,11 @@ class recetas {
 			 * @brief Iterador constante al fin de @a this.
 			 */
 			const_iterator end() const;
-
+			/**
+			 * @brief Busca la receta @a key.
+			 * @param "const string& key" Nombre de la receta a buscar.
+			 * @retval "iterator" Iterador apuntando a la receta encontrada o a @a recetas::end() si no se ha encontrado.
+			 */
 			recetas::iterator findReceta(const string& key);
 }; // end recetas
-
-#endif
+#endif // end RECETAS

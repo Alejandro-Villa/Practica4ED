@@ -7,8 +7,6 @@
 #ifndef INSTRUCCIONES
 #define INSTRUCCIONES
 
-#include<string>
-#include<iostream>
 #include<stack>
 #include "acciones.h"
 #include "arbolbinario.h"
