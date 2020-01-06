@@ -58,7 +58,7 @@ class acciones {
 		 */
 		inline unsigned char getAriedad(const std::string& nombre) const {return (*this)[nombre];};
 		/**
-		 * @nrief Añade una acción nueva
+		 * @brief Añade una acción nueva
 		 * @param "const std::string& nombre" Nombre de la acción.
 		 * @param "const unsigned char& ariedad" Ariedad de la acción.
 		 * @retval "bool" @c True si fue posible añadir la acción, @c false en caso contrario.
@@ -66,7 +66,7 @@ class acciones {
 		bool addAccion(const std::string& nombre, const unsigned char& ariedad);
 
 		/**
-		 * @brief operador de acceso.
+		 * @brief Operador de acceso.
 		 *
 		 * Accede al la accíom con nombre @a nombre, y devuelve su ariedad.
 		 *

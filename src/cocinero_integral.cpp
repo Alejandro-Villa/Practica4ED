@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 
 	acciones accread;
 	fsacc >> accread;
-	instrucciones::acc = accread;
+	instrucciones::setAcciones(accread);
 
 	cout << setw(8) << "" << setw(50) << left << FGRN("Acciones leídas con éxito") << endl;
 	cout << setw(50) << left << "Ingredientes localizados en: " << KGRN << pathtoingre << RST << endl;
