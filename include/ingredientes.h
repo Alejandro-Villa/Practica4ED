@@ -71,9 +71,12 @@ class ingredientes {
 		 * @retval unsigned Número de ingredientes.
 		 */
 		unsigned size() const;
-
-		inline bool empty() {return datos.empty();};
-
+		/**
+		 * @brief Comprueba si no hay ningún ingrediente.
+		 *
+		 * @retval "bool" @c true si está vacío, @c false si no.
+		 */
+		inline bool empty() const {return datos.empty();};
 		/**
 		 * @brief Imprime los ingredientes por orden alfabético de tipo.
 		 *
@@ -120,9 +123,15 @@ class ingredientes {
 		 * @retval "ingredientes" Todos los ingredientes son de tipo @a tipo.
 		 */
 		ingredientes getIngredienteTipo(std::string tipo) const;
-	
+		/**
+		 * @brief Operador de asignación.
+		 *
+		 * Asigna los contenidos de @a rhs en @a this.
+		 *
+		 * @param "const ingredientes& rhs" lado derecho de la asignación.
+		 * @retval "ingredientes&" referencia a @c this modificado.
+		 */	
 		ingredientes& operator=(const ingredientes& rhs);
-
 		/**
 		 * @brief Clase Iterador.
 		 *
@@ -274,7 +283,6 @@ class ingredientes {
 		 * @see ingredientes::operator[]
 		 */
 		inline ingrediente& operator[](const unsigned pos) {return datos[pos];};
-
 		/**
 		 * @brief Sobrecarga del operador de salida de flujo.
 		 *
@@ -314,7 +322,6 @@ class ingredientes {
 		 */
 		friend std::istream& operator>> (std::istream& in, ingredientes& is);
 		friend bool comparaNombre(const ingrediente& primero, const ingrediente& segundo);
-		//friend bool comparaTipo(const ingrediente& primero, const ingrediente& segundo);
 	private:
 		/**
 		 * @brief Vector que almacena los ingredientes.
@@ -364,7 +371,6 @@ class ingredientes {
 		 * @param "const ingrediente& buscado" Ingrediente a encontrar.
 		 * @retval unsigned Posición donde se encuentra o donde debería.
 		 */
-		//unsigned existeIndice(const ingrediente& buscado) const;
 		iterator existeIndice(const ingrediente& buscado) const;
 
 };
