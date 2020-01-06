@@ -38,8 +38,14 @@ istream& operator>>(istream& in, acciones& acc) {
 	return in;
 }
 
+ostream& operator<<(ostream& os, const acciones& acc) {
+	for (auto i = acc.datos.begin(); i != acc.datos.end(); ++i)
+		os << (*i).first << " " << (*i).second << endl;
+
+	return os;
+}
+
 unsigned char acciones::operator[] (const string& nombre) {
-	unsigned char retval = '0';
 	try {
 		return datos.at(nombre);
 	}
